@@ -1,123 +1,29 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conexion MySQL</title>
+</head>
+
 <body>
+    <?php
+    // Establecer la conexión a la base de datos MySQL
+    // mysqli_connect("servidor", "usuario", "clave", "base de datos")
+    // Reemplaza estos parámetros con tus propios datos de conexión
+    $enlace = mysqli_connect("localhost", "root", "Shallow21#", "datos_nube");
 
-<?PHP
-define ("CONSTANTE", "Hola Mundo");
-printf (CONSTANTE);
-?>
+    // Verificar si la conexión fue exitosa
+    if (!$enlace) {
+        // Si la conexión falla, se termina el script y se muestra un mensaje de error
+        die("No pudo conectarse a la base de datos " . mysqli_connect_error());
+    }
 
-</body>
-</html>
+    // Si la conexión fue exitosa, se muestra un mensaje de éxito
+    echo "Conexion exitosa";
 
-$basedatos = "mydb";
-
-//conectamos con el servidor
-
-$link = @mysql_connect("localhost", "root", "");
-
- 
-
-// comprobamos que hemos estabecido conexión en el servidor
-
-if (! $link){
-
-echo "<h2 align='center'>ERROR: Imposible establecer conección con el servidor</h2>";
-
-exit;
-
-}
-
-// obtenemos una lista de las bases de datos del servidor
-
-$db = mysql_list_dbs();
-
- 
-
-// vemos cuantas BD hay
-
-$num_bd = mysql_num_rows($db);
-
- 
-
-//comprobamos si la BD que quermos crear exite ya
-
-$existe = "NO" ;
-
-for ($i=0; $i<$num_bd; $i++) {
-
-if (mysql_dbname($db, $i) == $basedatos) {
-
-$existe = "SI" ;
-
-break;
-
-}
-
-}
-
- 
-
-// si no existe la creamos
-
-if ($existe == "NO") {
-
-/* manera 1 */
-
-if (! mysql_create_db($basedatos, $link)) {
-
-echo "<h2 align='center'>ERROR 1: Imposible crear base de datos</h2>";
-
-exit;
-
-} 
-
-/* class="codigo" style="margin-left: 50"> /* manera 2 
-
-if (! mysql_query("CREATE DATABASE $basedatos", $link)){
-
-echo "<h2 align='center'>ERROR2: Imposible crear base de datos</h2>";
-
-exit;
-
-} */
-
-}
-
- 
-
-// craamos la tabla
-
-$sql = "CREATE TABLE agenda (";
-
-$sql .= "id INT NOT NULL AUTO_INCREMENT, ";
-
-$sql .= "nombre CHAR(50), ";
-
-$sql .= "direccion CHAR(100), ";
-
-$sql .= "telefono CHAR(15), ";
-
-$sql .= "email CHAR(50), ";
-
-$sql .= "KEY (id) ) ";
-
- 
-
-if (@mysql_db_query($basedatos, $sql, $link)) {
-
-echo "<h2 align='center'>La tabla se ha creado con éxito</h2>";
-
-} else {
-
-echo "<h2 align='center'>No se ha podido crear la tabla</h2>";
-
-}
-
- 
-
-?>
-
- 
-
+    // Cerrar la conexión a la base de datos
+    mysqli_close($enlace);
+    ?>
 </body>
 </html>
